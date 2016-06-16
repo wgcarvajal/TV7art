@@ -1,62 +1,98 @@
 package tv7art.com.tv7art.networking;
 
+import android.content.Context;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.AsyncTask;
 import android.util.Log;
 import java.io.IOException;
+import java.net.SocketTimeoutException;
 
 /**
  * Created by geovanny on 15/06/16.
  */
 
-public class HttpAsyncTask extends AsyncTask<String, Integer, String> {
+public class HttpAsyncTask extends AsyncTask<String, Void, Response>
+{
 
-        public static final int GET = 0;
-        public static final int POST = 1;
-        public static final int PUT = 2;
-        public static final int DELETE = 3;
+    public static final int GET = 0;
+    public static final int POST = 1;
+    public static final int PUT = 2;
+    public static final int DELETE = 3;
 
-        public interface OnHttpResponse{
-            void onResponse(String response);
-        }
+    public interface OnHttpResponse
+    {
+        void onResponse(Response response);
+    }
 
-        int method;
-        OnHttpResponse response;
+    int method;
+    OnHttpResponse response;
+    Context context;
 
-        public HttpAsyncTask(int method, OnHttpResponse response) {
-            this.method = method;
-            this.response = response;
-        }
+    public HttpAsyncTask(int method, OnHttpResponse response , Context context)
+    {
+        this.method = method;
+        this.response = response;
+        this.context = context;
+    }
 
-        @Override
-        protected String doInBackground(String... params) {
-            HttpConnection con = new HttpConnection();
+    @Override
+    protected Response doInBackground(String... params)
+    {
+        HttpConnection con = new HttpConnection();
 
-            String rta=null;
-            try{
-                switch (method){
+        Response response=null;
+
+        if(isConnected())
+        {
+            try {
+                switch (method) {
                     case GET:
-                        rta = con.get(params[0]);
+                        response = con.get(params[0]);
                         break;
                     case POST:
-                        rta = con.post(params[0], params[1]);
+                        response = con.post(params[0],params[1]);
                         break;
                     case PUT:
-                        rta = con.put(params[0], params[1]);
+                        response = con.put(params[0],params[1]);
                         break;
                     case DELETE:
-                        rta = con.delete(params[0], params[1]);
+                        response = con.delete(params[0],params[1]);
                         break;
                 }
-            }catch(IOException e)
-            {
-                Log.i("error:", e.getMessage());
+                response.setError(HttpError.NO_ERROR);
+
+            }catch (SocketTimeoutException e){
+                response = new Response(HttpError.TIMEOUT);
+            }catch(IOException e){
+                response = new Response(HttpError.SERVER);
             }
-            return rta;
+        }
+        else
+        {
+            response = new Response(HttpError.NO_INTERNET);
         }
 
-        @Override
-        protected void onPostExecute(String s) {
-            response.onResponse(s);
+        return response;
+    }
+
+    @Override
+    protected void onPostExecute(Response s) {
+        this.response.onResponse(s);
+    }
+
+    private boolean isConnected(){
+        ConnectivityManager cm =
+                (ConnectivityManager)context.getSystemService(Context.CONNECTIVITY_SERVICE);
+
+        NetworkInfo activeNetwork = cm.getActiveNetworkInfo();
+
+        if(activeNetwork!=null)        {
+
+            return activeNetwork.isConnectedOrConnecting();
         }
+        return false;
+
+    }
 }
 

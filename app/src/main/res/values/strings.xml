@@ -3,4 +3,11 @@
 
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
+
+
+    <string name="http_error_404">Recurso no encontrado</string>
+    <string name="http_error_server">Erro en Servidor</string>
+    <string name="http_error_internet">Sin Conexion a internet</string>
+    <string name="http_error_timeout">El servidor no responde</string>
+    <string name="title_activity_pantalla_inicial">PantallaInicialActivity</string>
 </resources>

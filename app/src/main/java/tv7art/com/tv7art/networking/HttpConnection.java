@@ -14,7 +14,7 @@ import java.net.URL;
  */
 public class HttpConnection {
 
-    public String get(String url) throws IOException {
+    public Response get(String url) throws IOException {
         URL u = new URL(url);
         HttpURLConnection con = (HttpURLConnection) u.openConnection();
 
@@ -24,23 +24,23 @@ public class HttpConnection {
         con.connect();
 
         InputStream in = con.getInputStream();
-
-        return streamToString(in);
+        Response response =  new Response(streamToString(in), con.getResponseCode());
+        return response;
     }
 
-    public String post(String url, String json) throws IOException {
+    public Response post(String url, String json) throws IOException {
         return request("POST", url, json);
     }
 
-    public String put(String url, String json) throws IOException {
+    public Response put(String url, String json) throws IOException {
         return request("PUT", url, json);
     }
 
-    public String delete(String url, String json) throws IOException {
+    public Response delete(String url, String json) throws IOException {
         return request("DELETE", url, json);
     }
 
-    private String request(String method, String url, String json) throws IOException {
+    private Response request(String method, String url, String json) throws IOException {
 
         URL u = new URL(url);
         HttpURLConnection con = (HttpURLConnection) u.openConnection();
@@ -62,7 +62,8 @@ public class HttpConnection {
         }
 
         InputStream in = con.getInputStream();
-        return streamToString(in);
+        Response response =  new Response(streamToString(in), con.getResponseCode());
+        return response;
     }
 
     private String streamToString(InputStream in) throws  IOException
