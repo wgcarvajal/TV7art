@@ -35,10 +35,10 @@ import tv7art.com.tv7art.networking.Response;
 /**
  * Esta clase instancia y controla el layout  activity_main que es la vista que contiene
  * el gridview y este asu ves muestra las las series es dos columnas, esta clase contiene toda la logica
- * para peritirle al usuario buscar una serie por el criterio titutlo haciendo uso de la clase HttpAsyncTask e implementado el
- * metodo de su interface OnHttpResponse por donde llegar el resultado de la comunicacion con el servicio remoto,
+ * para permitirle al usuario buscar una serie por el criterio titutlo haciendo uso de la clase HttpAsyncTask e implementado el
+ * metodo de su interface OnHttpResponse por donde llega el resultado de la comunicacion con el servicio remoto,
  * tambien implemta la logica de un infinite scroll que ira creciendo a medida que el usuario avance si
- * el resultado dela busqueda arrojo un numero considerable de series.
+ * el resultado de la busqueda arroja un numero considerable de series.
  *
  * @author: Wilson Geovanny Carvajal
  * @version: 16/06/2016.
@@ -59,8 +59,8 @@ public class MainActivity extends AppCompatActivity implements HttpAsyncTask.OnH
     private int totalResultados = 0;//numero total de resultados que arroja una consulta
     private int itemCount = 0;
 
-    private boolean isLoading = true;//bandera para ayudar a determinar cuando cargar mas datos al list data
-    private String busqueda ="";
+    private boolean estaCargando = true;//bandera para ayudar a determinar cuando cargar mas datos al list data
+    private String busqueda ="";//almacena la cadena de busqueda  
 
     private int tamMaximoSeries = 2000;//tamaño maximo que pude llegar a tener el List data
     private int tamMaximoConsulta = 9;//numero de intems maximo por consulta
@@ -88,6 +88,7 @@ public class MainActivity extends AppCompatActivity implements HttpAsyncTask.OnH
                                             //mandamos this para que la misma clase implemente el metodo
         loadSeries();//la primera ves se cargan las series haciendo una busqueda sin criterio
     }
+
     public void loadSeries()
     {
         //ejecutamos el progressDialog ya que esta consulta puede tardar unos segundos e indicarle al usuario que hay un proceso en ejecucion
@@ -108,7 +109,8 @@ public class MainActivity extends AppCompatActivity implements HttpAsyncTask.OnH
         task.execute(Serie.query_buscar_series_titulo + "?query=" + busqueda + "&language=es&api_key=" + Serie.API_KEY);
     }
 
-    /**Implementacion del metodo onResponse de la interface OnHttpResponse de la clase HttpAsyncTask*/
+    /**Implementacion del metodo onResponse de la interface OnHttpResponse de la clase HttpAsyncTask
+     * unico metodo para recibir el resultado de la comunicacion con el servicio remoto*/
     @Override
     public void onResponse(Response response)
     {
@@ -273,14 +275,17 @@ public class MainActivity extends AppCompatActivity implements HttpAsyncTask.OnH
     }
 
     /**
-     * metodo prepara la consulta al servicio remoto dependiendo de se realizo una busqueda y el usuario sigue
-     * navegando sobre esa busqueda
+     * metodo que prepara la consulta al servicio remoto dependiendo de
+     * dos tipos de busqueda ; uno con la palabra correspondiente a buscar de acuerdo al criterio de busqueda
+     * y otro para cuando no hay un  criterio de busqueda
+     * este metodo es usado por invocado por la implementacion del metodo onscroll cuando se llega al final del scroll
+     * con el fin de cargar mas datos
      */
-    private void actualizarListaPeliculas()
+    private void actualizarListaSeries()
     {
         int tamano = data.size();
         progressLayout.setVisibility(View.VISIBLE);
-        if(tamano < this.totalResultados)//comprobamso si ya se llego al limite permitodo de series en la lista data
+        if(tamano < this.totalResultados)//se comprueba si ya se llego al limite permitodo de series en la lista data
         {
             int pagina = (tamano / 20)+1;
             String query;
@@ -299,7 +304,7 @@ public class MainActivity extends AppCompatActivity implements HttpAsyncTask.OnH
 
         }
         else {
-            //si ya se llego al limite se deja de de buscar asi el usuario quiera seguir bajando por el scroll
+            //si ya se llego al limite se deja de buscar asi el usuario quiera seguir bajando por el scroll
             progressLayout.setVisibility(View.GONE);
             Log.i("total:", data.size() + "");
             //Toast.makeText(this,getResources().getString(R.string.no_hay_mas_datos),Toast.LENGTH_SHORT).show();
@@ -307,42 +312,62 @@ public class MainActivity extends AppCompatActivity implements HttpAsyncTask.OnH
 
     }
 
+    /**
+     * Metodo que prepara la cadena de busqueda validando en busca de caracteres especiales
+     * y de no encontrarlos escarpa el caracter espacio con %20 antes de que pase a los metodos donde
+     * se realiza la busqueda
+     */
     private void buscar()
     {
-
-        if(editTextBuscar.getText().toString().isEmpty())
+        if(editTextBuscar.getText().toString().isEmpty())//si el editText esta vacio se realiza la busqueda con la opcion loadseries()
         {
-            data.removeAll(data);
+            //inicializando contadores
             this.totalResultados=0;
             this.itemCount=0;
-            this.isLoading = true;
+            this.estaCargando = true;
+            //removiendo lass series actuales de la lista data
+            data.removeAll(data);
+            //notifica al adaptador para que el gridview muestre los cambios
             adaptadorSerie.notifyDataSetChanged();
-
-            busqueda = "";
+            busqueda = "";//se fija vacio
             loadSeries();
         }
         else
         {
+            // si no esta vacio entonces se valida la cadena con validarBusqueda
+            // y si no encuentra caracteres especiales escarpa los espacios en blanco remplazandolos con %20
+            //invoca el metodo loadSeriesConBusqueda
             this.busqueda = editTextBuscar.getText().toString();
             if(!validarBusqueda())
             {
-                this.busqueda = editTextBuscar.getText().toString().replace(" ","%20");
+                this.busqueda = this.busqueda.replace(" ","%20");
+                //inicializando contadores
                 this.totalResultados=0;
                 this.itemCount=0;
-                this.isLoading=true;
-                data.removeAll(data);
-                adaptadorSerie.notifyDataSetChanged();
+                this.estaCargando=true;
+                data.removeAll(data);//removiendo lass series actuales de la lista data
+                adaptadorSerie.notifyDataSetChanged();//notifica al adaptador para que el gridview muestre los cambios
                 loadSeriesConBusqueda();
             }
             else
             {
+                //si encuentra caracteres especiales notifica al usuario
+                //termina la ejecucion
                 this.busqueda = "";
                 Toast.makeText(this,getResources().getString(R.string.caracteres_especiales_no_permitidos),Toast.LENGTH_SHORT).show();
             }
         }
 
-    }
+    }//fin del metodo buscar
 
+
+
+    /**
+     * Metodo que busca caracters especiales en la cadena que hay actualmente en el atributo buscar
+     * haciendo uso del patron de busqueda [^A-Za-z0-9 ] por medio de la clase Pattern
+     * y realizando la busqueda con la el metodo find de la clase Matcher
+     * @return  false(si no encuentra caracters especiales) o true (si encuentra caracteres especiales)
+     */
     public boolean validarBusqueda()
     {
         String PATTERN_BUSQUEDA = "[^A-Za-z0-9 ]";
@@ -352,14 +377,23 @@ public class MainActivity extends AppCompatActivity implements HttpAsyncTask.OnH
         return matcher.find();
     }
 
+    /**
+     * implementacion del metodo OnItemClickListener de la clase AdapterView
+     * esta  funcion es invocada al hacer click sobre un elemento en el gridview
+     * esta implementacion crea un Intent  para invocar una instancia de el activity
+     * DetalleSerieActivity donde se mostrara el detalle de la serie
+     */
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
         Intent intent = new Intent(this,DetalleSerieActivity.class);
-        intent.putExtra("serie",data.get(position));
-        startActivity(intent);
+        intent.putExtra("serie",data.get(position));//se pasa la serie seleccionada al activity DetalleSerieActivity  de acuerdo a la posicion
+        startActivity(intent);//se invoca el activity
     }
 
+    /** este metodo no lo implentaremos pereo era obligacion sobreescribirlo al implemtar
+     * AbsListView.OnScrollListener
+     */
     @Override
     public void onScrollStateChanged(AbsListView arg0, int scrollState)
     {
@@ -367,21 +401,38 @@ public class MainActivity extends AppCompatActivity implements HttpAsyncTask.OnH
     }
 
 
+    /**
+     * implementacion del metodo OnScrollListener de la clase AbsListView
+     * esta implementacion contiene la logica del scroll infinito
+     * que al llegar al final de scroll carga mas elentos al gridview
+     */
     @Override
     public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount)
     {
-
-        if (isLoading && (totalItemCount > itemCount)) {
-            isLoading = false;
+        //siempre que totalItemcount(numero de items actuales) aumenta en numero entra a este
+        //condicional la varialbe esta cargando se fija false itemcount se iguala totalItemcount
+        if (estaCargando && (totalItemCount > itemCount))
+        {
+            estaCargando = false;//
             itemCount = totalItemCount;
         }
 
-        if (!isLoading && (totalItemCount - visibleItemCount)<= firstVisibleItem) {
-            actualizarListaPeliculas();
-            isLoading = true;
+        //como en la funcion anterior se cambio estacargando a false este condicional se cumple en el momento
+        //totalItemcount (numero de elementos) que en este caso seria nuestro ultimo elemento menos
+        //la cantidad de items visibles este numero debe ser menor o igual al primer elemento visible en pantalla
+        //con esto nos aseguramos que estamos al final del scrollview
+        if (!estaCargando && (totalItemCount - visibleItemCount)<= firstVisibleItem)
+        {
+            actualizarListaSeries();//actualizamos la lista de series en busca de mas elementos para incluir a la lista
+            estaCargando = true;//esta cargando se fija nuevamente true y se vuelve a repetir el proceso
         }
     }
 
+    /**
+     * implementacion del metodo OnKeyListener de la clase View
+     * esta metodo es invocado cada ves que se recibe una entrada en el edittexserie
+     * detectanto un enter_action
+     */
     @Override
     public boolean onKey(View v, int keyCode, KeyEvent event) {
         if ((event.getAction() == KeyEvent.ACTION_DOWN) &&
@@ -390,7 +441,7 @@ public class MainActivity extends AppCompatActivity implements HttpAsyncTask.OnH
             InputMethodManager in = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
             in.hideSoftInputFromWindow(editTextBuscar.getApplicationWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
 
-            buscar();
+            buscar();//al detectar enter se invoca el metodo buscar()
             return true;
         }
         return false;

@@ -8,18 +8,23 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".MainActivity"
-    android:background="@color/negro">
+    android:background="@color/negro"
+    android:descendantFocusability="beforeDescendants"
+    android:focusableInTouchMode="true">
 
     <!-- caja de texto para la busqueda -->
+
     <EditText
         android:id="@+id/edit_text_buscar"
-        android:hint="Buscar"
+        android:hint="@string/hint_buscar_editext"
         android:layout_width="match_parent"
         android:layout_height="@dimen/alto_caja_texto_buscar"
         android:background="@color/blanco"
         android:layout_margin="@dimen/margin_10dp"
         android:inputType="text"
         android:maxLength="50"
+
+
 
         />
     <GridView

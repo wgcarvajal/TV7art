@@ -19,4 +19,5 @@
     <string name="no_se_encontraron_resultados">No se encontraron resultados..</string>
     <string name="caracteres_especiales_no_permitidos">caracteres especiales no permitidos.</string>
     <string name="txt_btn_atras">Atras</string>
+    <string name="hint_buscar_editext">Buscar por titulo</string>
 </resources>

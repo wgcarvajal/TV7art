@@ -16,21 +16,13 @@ delos episodios de la serie. este layout sera instanciado por la clase DetalleSe
     android:background="@color/negro"
     >
 
-    <Button
-        android:id="@+id/btn_atras"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textColor="@color/blanco"
-        android:drawableLeft="@mipmap/ic_back"
-        android:background="@color/transparente"
-        />
+
 
     <ScrollView
         android:id="@+id/scroll_detalle_serie"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:scrollbars="none"
-        android:layout_below="@id/btn_atras"
         android:layout_margin="@dimen/margin_10dp"
         >
 
@@ -99,15 +91,38 @@ delos episodios de la serie. este layout sera instanciado por la clase DetalleSe
 
 
     </ScrollView>
+
+    <Button
+        android:id="@+id/btn_atras"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@color/blanco"
+        android:drawableLeft="@mipmap/ic_back"
+        android:background="@color/transparente"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentBottom="true"
+        android:padding="@dimen/padding_dosdp"
+        android:layout_marginRight="@dimen/margin_10dp"
+        android:text="Atras"
+        />
     <ListView
         android:id="@+id/list_view_episodios"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_below="@id/scroll_detalle_serie"
         android:layout_margin="@dimen/margin_10dp"
+        android:layout_above="@id/btn_atras"
         />
 
 
 
+    <include
+        android:id="@+id/load_progress_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@id/list_view_episodios"
+        android:layout_marginTop="@dimen/margin_30dp"
+        layout="@layout/progress_layout"
+        android:visibility="gone"/>
 
 </RelativeLayout>
