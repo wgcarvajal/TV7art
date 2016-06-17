@@ -1,16 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- vista principal de la aplicacion  que contendra un cuadro de busqueda, un
+ gridview donde se mostraran las series en dos columnas
+ este layout sera instaciado por la clase MainActivity
+ -->
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".MainActivity"
-    android:background="#000000">
+    android:background="@color/negro">
 
+    <!-- caja de texto para la busqueda -->
+    <EditText
+        android:id="@+id/edit_text_buscar"
+        android:hint="Buscar"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/alto_caja_texto_buscar"
+        android:background="@color/blanco"
+        android:layout_margin="@dimen/margin_10dp"
+        android:inputType="text"
+        android:maxLength="50"
+
+        />
     <GridView
-        android:id="@+id/grid_Peliculas"
+        android:id="@+id/grid_series"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:numColumns="2"
+        android:horizontalSpacing="@dimen/margin_10dp"
+        android:verticalSpacing="@dimen/margin_10dp"
+        android:layout_below="@id/edit_text_buscar"
+        android:layout_margin="@dimen/margin_10dp"
         />
+
+    <!-- contendra un efecto de cargando... al final del gridview  -->
+    <include
+        android:id="@+id/load_progress_layout"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        layout="@layout/progress_layout"
+        android:visibility="gone" />
 
 
 </RelativeLayout>

@@ -2,4 +2,14 @@
     <!-- Default screen margins, per the Android Design guidelines. -->
     <dimen name="activity_horizontal_margin">16dp</dimen>
     <dimen name="activity_vertical_margin">16dp</dimen>
+    <dimen name="alto_caja_texto_buscar">40dp</dimen>
+    <dimen name="padding_cincodp">5dp</dimen>
+    <dimen name="margin_10dp">10dp</dimen>
+    <dimen name="altura_img_template_serie">200dp</dimen>
+    <dimen name="padding_dosdp">2dp</dimen>
+    <dimen name="alto_img_detalles_serie">150dp</dimen>
+    <dimen name="ancho_img_detalles_serie">120dp</dimen>
+    <dimen name="tam_alto_spinner_temporada">40dp</dimen>
+    <dimen name="margin_30dp">30dp</dimen>
+    <dimen name="alto_txt_template_episodio">40dp</dimen>
 </resources>

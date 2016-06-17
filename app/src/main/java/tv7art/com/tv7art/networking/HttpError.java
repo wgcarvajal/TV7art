@@ -1,7 +1,12 @@
 package tv7art.com.tv7art.networking;
 
 /**
- * Created by geovanny on 15/06/16.
+ * Esta clase define unos atributos estaticos con un indice
+ * que representa los distintos tipos de error que se pueden
+ * presentar en una consulta a un servicio remoto
+ * @author: Wilson Geovanny Carvajal
+ * @version: 15/06/2016.
+ *
  */
 public class HttpError
 {

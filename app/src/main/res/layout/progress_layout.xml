@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- efecto cargando circular que contendra el include
+que esta en el xml activity_main
+este efecto se mostrar en la parte inferior del gridview
+-->
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/negro"
+    android:gravity="center"
+    android:padding="@dimen/padding_cincodp" >
+
+    <ProgressBar
+        android:id="@+id/more_progress"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        />
+
+
+
+</RelativeLayout>

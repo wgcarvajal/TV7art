@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- vista que mostrara los detalles de una serie en particular
+contiene un boton abajo enseguida la imagen representativa de  de la serie
+al lado derecho del imagen el nombre se la serie abajo de este
+los generos luego los actores estos formando una tarjeta de presentacon
+abajo de esta un spinner que contiene las temporadas de la seri y enseguida la lista
+delos episodios de la serie. este layout sera instanciado por la clase DetalleSerieActivity
+
+ -->
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".DetalleSerieActivity"
+    android:background="@color/negro"
+    >
+
+    <Button
+        android:id="@+id/btn_atras"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@color/blanco"
+        android:drawableLeft="@mipmap/ic_back"
+        android:background="@color/transparente"
+        />
+
+    <ScrollView
+        android:id="@+id/scroll_detalle_serie"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:scrollbars="none"
+        android:layout_below="@id/btn_atras"
+        android:layout_margin="@dimen/margin_10dp"
+        >
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            >
+
+            <ImageView
+                android:id="@+id/img_detalle_serie"
+                android:layout_width="@dimen/ancho_img_detalles_serie"
+                android:layout_height="@dimen/alto_img_detalles_serie"
+                />
+
+            <TextView
+                android:id="@+id/txt_titulo_detalle_serie"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_toRightOf="@id/img_detalle_serie"
+                android:background="@color/vinotinto"
+                android:textColor="@color/blanco"
+                android:text=""
+                android:gravity="center"
+                />
+            <TextView
+                android:id="@+id/txt_genero_detatalle_serie"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_toRightOf="@id/img_detalle_serie"
+                android:layout_below="@id/txt_titulo_detalle_serie"
+                android:textColor="@color/blanco"
+                />
+
+            <TextView
+                android:id="@+id/txt_actores_detalle_serie"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_toRightOf="@id/img_detalle_serie"
+                android:layout_below="@id/txt_genero_detatalle_serie"
+                android:textColor="@color/blanco"
+                android:layout_marginTop="@dimen/margin_10dp"
+                android:lines="3"
+
+                />
+
+                <Spinner
+                    android:id="@+id/spin_temporada_detalle_serie"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/img_detalle_serie"
+                    android:layout_marginTop="@dimen/margin_30dp"
+                    android:background="@color/blanco"
+                />
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@android:drawable/arrow_down_float"
+                    android:background="@color/vinotinto"
+                    android:layout_alignBottom="@id/spin_temporada_detalle_serie"
+                    android:layout_alignRight="@id/spin_temporada_detalle_serie"
+                    android:layout_margin="@dimen/margin_10dp"
+                    />
+
+        </RelativeLayout>
+
+
+
+    </ScrollView>
+    <ListView
+        android:id="@+id/list_view_episodios"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/scroll_detalle_serie"
+        android:layout_margin="@dimen/margin_10dp"
+        />
+
+
+
+
+</RelativeLayout>

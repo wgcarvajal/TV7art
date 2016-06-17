@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- template para los items del listview que mostrara el numero del
+ episodio y nombre del episodio este layout sera instanciado
+ por la clase AdaptadorListaEpisodios
+-->
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="horizontal"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/negro"
+    >
+
+    <TextView
+        android:id="@+id/txt_numero_episodio"
+        android:layout_width="0dp"
+        android:layout_height="@dimen/alto_txt_template_episodio"
+        android:layout_weight="1"
+        android:textColor="@color/blanco"
+        android:layout_gravity="center"
+
+        />
+
+    <TextView
+        android:id="@+id/txt_nombre_episodio"
+        android:layout_width="0dp"
+        android:layout_height="@dimen/alto_txt_template_episodio"
+        android:layout_weight="5"
+        android:textColor="@color/blanco"/>
+
+</LinearLayout>

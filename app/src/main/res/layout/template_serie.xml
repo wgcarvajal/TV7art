@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- template para los items del gridview que mostrara el nombre
+    de serie y debajo de este la imagen representativa de la serie.
+    este layout sera instancia por la clase AdaptadorSerie
+-->
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@color/transparente"
+    >
+
+    <TextView
+        android:id="@+id/txt_nombre_serie"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textColor="@color/blanco"
+        android:background="@color/vinotinto"
+        android:text="hola"
+        android:gravity="center"
+        android:singleLine="false"
+        android:lines="2"
+
+        />
+
+    <ImageView
+        android:id="@+id/img_serie"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/altura_img_template_serie"
+        android:scaleType="fitXY"/>
+
+
+</LinearLayout>

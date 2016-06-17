@@ -1,3 +1,4 @@
+<?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">TV7art</string>
 
@@ -10,4 +11,12 @@
     <string name="http_error_internet">Sin Conexion a internet</string>
     <string name="http_error_timeout">El servidor no responde</string>
     <string name="title_activity_pantalla_inicial">PantallaInicialActivity</string>
+    <string name="title_activity_detalle_serie">DetalleSerieActivity</string>
+
+    <string name="no_hay_mas_datos">No hay mas datos.</string>
+    <string name="txt_cargando_datos">Cargando</string>
+    <string name="por_favor_espere">Por favor espere....</string>
+    <string name="no_se_encontraron_resultados">No se encontraron resultados..</string>
+    <string name="caracteres_especiales_no_permitidos">caracteres especiales no permitidos.</string>
+    <string name="txt_btn_atras">Atras</string>
 </resources>

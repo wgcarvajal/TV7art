@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- template para los items del spinner temporada
+    este layout sera instanciado  por la clase AdaptadorSpinnerTemporada
+-->
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <TextView
+        android:id="@+id/txt_item_spinner_temporada"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/tam_alto_spinner_temporada"
+        android:text="hola"
+        android:textColor="@color/negro"
+        android:gravity="center"/>
+
+</LinearLayout>
